@@ -1,0 +1,35 @@
+# Dossiers générés par Gradle
+.gradle/
+build/
+
+# Fichiers spécifiques à IntelliJ IDEA
+.idea/
+*.iml
+
+# Configuration spécifique à l'IDE
+*.ipr
+*.iws
+out/
+
+# Fichiers système ou temporaires
+.DS_Store
+Thumbs.db
+
+# Logs et fichiers de débogage
+*.log
+
+# Fichiers spécifiques au système d'exploitation
+*.swp
+*.swo
+
+# Fichiers Java ou Gradle inutiles
+*.class
+
+# Fichiers jar ou artefacts locaux
+*.jar
+
+# Fichiers spécifiques aux dépendances locales
+
+# Fichiers environnementaux
+.env
+*.env

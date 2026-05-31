@@ -1,0 +1,6 @@
+name: FirstSpawnRTP
+version: '${version}'
+
+main: fr.jessee.firstSpawnRTP.FirstSpawnRTP
+api-version: '26.1.2'
+load: POSTWORLD
