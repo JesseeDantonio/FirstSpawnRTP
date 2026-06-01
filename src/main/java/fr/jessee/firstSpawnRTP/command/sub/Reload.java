@@ -32,6 +32,10 @@ public class Reload extends AbstractSubCommand {
     @Override
     public void executePlayer(CommandSender sender, String[] args) {
         if (!(sender instanceof Player p)) return;
+        if (!p.hasPermission(getPermission())) {
+            p.sendMessage(FirstSpawnRTP.getLangFile().getString("no_permission"));
+            return;
+        }
 
         FirstSpawnRTP.getConfigFile().reload();
         p.sendMessage(FirstSpawnRTP.getLangFile().getString("reload_success"));
