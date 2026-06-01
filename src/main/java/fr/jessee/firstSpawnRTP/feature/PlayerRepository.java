@@ -60,11 +60,27 @@ public class PlayerRepository {
         return false;
     }
 
+    private void cleanTable() {
+        try (Statement stmt = connectionProvider.getConnection().createStatement()) {
+            stmt.executeUpdate(String.format("DELETE FROM %s", TABLE_NAME));
+        } catch (SQLException e) {
+            getLogger().severe(e.getMessage());
+        }
+    }
+
     public CompletableFuture<Void> getAddAsync(UUID playerId) {
         return CompletableFuture.runAsync(() -> addPlayer(playerId));
     }
 
     public CompletableFuture<Boolean> getIsPlayerExistAsync(UUID playerId) {
         return CompletableFuture.supplyAsync(() -> isPlayerExist(playerId));
+    }
+
+    public CompletableFuture<Void> getCleanTableAsync() {
+        return CompletableFuture.runAsync(this::cleanTable);
+    }
+
+    public ConnectionProvider getConnectionProvider() {
+        return connectionProvider;
     }
 }
