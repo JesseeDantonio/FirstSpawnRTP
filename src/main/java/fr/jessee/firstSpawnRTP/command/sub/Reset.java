@@ -27,6 +27,11 @@ public class Reset extends AbstractSubCommand {
     }
 
     @Override
+    public String getPermission() {
+        return "rtp.reset";
+    }
+
+    @Override
     public void executePlayer(CommandSender sender, String[] args) {
         if (!(sender instanceof Player p)) return;
 
