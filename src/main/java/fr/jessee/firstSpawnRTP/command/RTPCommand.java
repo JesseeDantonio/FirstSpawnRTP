@@ -1,4 +1,4 @@
-package fr.jessee.firstSpawnRTP.command.sub;
+package fr.jessee.firstSpawnRTP.command;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
 import fr.jessee.firstSpawnRTP.util.iface.SubCommand;
