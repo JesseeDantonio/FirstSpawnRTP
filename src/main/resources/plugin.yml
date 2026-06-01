@@ -1,5 +1,16 @@
 name: FirstSpawnRTP
 version: '${version}'
+author: "Jessee_Dantonio"
+depend:
+  - LuckPerms
+
+permissions:
+  rtp.reset:
+    description: Permission to reset database
+    default: op
+  rtp.reload:
+    description: Permission to reload config
+    default: op
 
 main: fr.jessee.firstSpawnRTP.FirstSpawnRTP
 api-version: '26.1.2'
