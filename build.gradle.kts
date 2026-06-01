@@ -11,6 +11,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
     implementation("org.reflections:reflections:0.10.2")
+    compileOnly("net.luckperms:api:5.5")
 }
 
 java {
