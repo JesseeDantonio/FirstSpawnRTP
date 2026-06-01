@@ -23,7 +23,7 @@ public class PlayerRepository {
             stmt.executeUpdate(String.format("""
                 CREATE TABLE IF NOT EXISTS %s (
                     uuid TEXT NOT NULL,
-                    created_at TEXT NOT NULL
+                    created_at INTEGER NOT NULL,
                     PRIMARY KEY (uuid)
                 );
             """, TABLE_NAME));
