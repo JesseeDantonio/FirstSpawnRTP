@@ -11,4 +11,5 @@ public interface SubCommand {
     String getUsage();
     void executePlayer(CommandSender sender, String[] args);
     void executeConsole(CommandSender sender, String[] args);
+    String getPermission();
 }
