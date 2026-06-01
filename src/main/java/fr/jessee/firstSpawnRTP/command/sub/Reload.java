@@ -24,6 +24,10 @@ public class Reload extends AbstractSubCommand {
     public String getUsage() {
         return "/rtp reload";
     }
+    @Override
+    public String getPermission() {
+        return "rtp.reload";
+    }
 
     @Override
     public void executePlayer(CommandSender sender, String[] args) {
