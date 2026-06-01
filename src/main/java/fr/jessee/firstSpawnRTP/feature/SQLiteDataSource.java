@@ -1,16 +1,16 @@
 package fr.jessee.firstSpawnRTP.feature;
 
-import fr.jessee.firstSpawnRTP.util.iface.Storage;
+import fr.jessee.firstSpawnRTP.util.iface.ConnectionProvider;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class SQLiteFile implements Storage {
+public class SQLiteDataSource implements ConnectionProvider {
     private final File dbFile;
     private Connection connection;
 
-    public SQLiteFile(File dbFile) {
+    public SQLiteDataSource(File dbFile) {
         this.dbFile = dbFile;
     }
 
