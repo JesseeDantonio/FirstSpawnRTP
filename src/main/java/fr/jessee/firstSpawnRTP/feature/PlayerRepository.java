@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import static org.bukkit.Bukkit.getConsoleSender;
 import static org.bukkit.Bukkit.getLogger;
 
 public class PlayerRepository {
@@ -40,7 +41,7 @@ public class PlayerRepository {
             ps.setLong(2, System.currentTimeMillis());
             ps.executeUpdate();
         } catch (SQLException e) {
-            getLogger().severe(e.getMessage());
+            getConsoleSender().sendMessage(e.getMessage());
         }
     }
 
@@ -54,7 +55,7 @@ public class PlayerRepository {
                 return rs.next();
             }
         } catch (SQLException e) {
-            getLogger().severe(e.getMessage());
+            getConsoleSender().sendMessage(e.getMessage());
         }
 
         return false;
@@ -64,7 +65,7 @@ public class PlayerRepository {
         try (Statement stmt = connectionProvider.getConnection().createStatement()) {
             stmt.executeUpdate(String.format("DELETE FROM %s", TABLE_NAME));
         } catch (SQLException e) {
-            getLogger().severe(e.getMessage());
+            getConsoleSender().sendMessage(e.getMessage());
         }
     }
 
