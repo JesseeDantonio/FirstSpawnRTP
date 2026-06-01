@@ -20,6 +20,7 @@ public class Join implements Listener {
         FirstSpawnRTP.getInstance().getPlayerRepository().getIsPlayerExistAsync(UUID_P).thenAccept(playerExist -> {
             if (!playerExist) {
                 FirstSpawnRTP.getInstance().getPlayerRepository().getAddAsync(UUID_P);
+                FirstSpawnRTP.getInstance().getRandomTeleport().p(PLAYER);
             }
         });
     }
