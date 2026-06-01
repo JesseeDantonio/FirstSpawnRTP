@@ -35,6 +35,11 @@ public class Reset extends AbstractSubCommand {
     public void executePlayer(CommandSender sender, String[] args) {
         if (!(sender instanceof Player p)) return;
 
+        if (!p.hasPermission(getPermission())) {
+            p.sendMessage(FirstSpawnRTP.getLangFile().getString("no_permission"));
+            return;
+        }
+
         FirstSpawnRTP.getInstance().getPlayerRepository().getCleanTableAsync().whenComplete((result, error) -> {
             if (error != null) {
                 FirstSpawnRTP.getInstance().getLogger().severe(error.getMessage());
