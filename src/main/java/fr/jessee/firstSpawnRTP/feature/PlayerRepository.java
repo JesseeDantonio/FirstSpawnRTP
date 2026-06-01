@@ -11,11 +11,11 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.bukkit.Bukkit.getLogger;
 
-public class SQLitePlayer {
+public class PlayerRepository {
     private final ConnectionProvider connectionProvider;
     private final String TABLE_NAME = "player_list";
 
-    public SQLitePlayer(ConnectionProvider connectionProvider) {
+    public PlayerRepository(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
 
         // Création de la table si elle n'existe pas
