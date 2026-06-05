@@ -37,7 +37,7 @@ public class Reload extends AbstractSubCommand {
             return;
         }
 
-        FirstSpawnRTP.getConfigFile().reload();
+        reload();
         p.sendMessage(FirstSpawnRTP.getLangFile().getString("reload_success"));
     }
 
@@ -45,7 +45,12 @@ public class Reload extends AbstractSubCommand {
     public void executeConsole(CommandSender sender, String[] args) {
         if (sender instanceof Player) return;
 
-        FirstSpawnRTP.getConfigFile().reload();
+        reload();
         sender.sendMessage(FirstSpawnRTP.getLangFile().getString("reload_success"));
+    }
+
+    private void reload() {
+        FirstSpawnRTP.getConfigFile().reload();
+        FirstSpawnRTP.getLangFile().reload();
     }
 }
