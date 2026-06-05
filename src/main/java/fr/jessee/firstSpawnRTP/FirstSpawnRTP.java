@@ -8,6 +8,7 @@ import fr.jessee.firstSpawnRTP.listener.player.Join;
 import fr.jessee.firstSpawnRTP.util.iface.ConnectionProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -35,6 +36,7 @@ public final class FirstSpawnRTP extends JavaPlugin {
         if (world == null) {
             getLogger().severe("World not found. Please check the configuration.");
             Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
 
         try {
@@ -50,7 +52,15 @@ public final class FirstSpawnRTP extends JavaPlugin {
 
         randomTeleport = new RandomTeleport();
         Bukkit.getPluginManager().registerEvents(new Join(), this);
-        getCommand("rtp").setExecutor(new fr.jessee.firstSpawnRTP.command.RTPCommand());
+        PluginCommand command = getCommand("rtp");
+
+        if (command == null) {
+            getLogger().severe("NullPointerException: Command 'rtp' not found.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        command.setExecutor(new fr.jessee.firstSpawnRTP.command.RTPCommand());
     }
 
     @Override
