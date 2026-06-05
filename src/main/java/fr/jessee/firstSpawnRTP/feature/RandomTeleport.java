@@ -1,13 +1,13 @@
 package fr.jessee.firstSpawnRTP.feature;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 public class RandomTeleport {
 
@@ -48,7 +48,7 @@ public class RandomTeleport {
      * Searches a safe spot in the given location.
      *
      * @param location The location where to find a safe spot.
-     * @return A Location object representing the safe spot, or null if no safe spot is available.
+     * @return Location
      */
     private Location searchSafeSpot(Location location) {
         Location safeSpot = null;
@@ -92,34 +92,67 @@ public class RandomTeleport {
      * Teleports the player to a random safe location inside the world border.
      *
      * @param player The player to be teleported.
+     * @return CompetableFuture<Boolean>
      */
-    public boolean p(Player player) {
+    public CompletableFuture<Boolean> p(Player player) {
         World world = player.getWorld();
         WorldBorder border = world.getWorldBorder();
 
-        // Obtenir les limites de la bordure
         double borderSize = border.getSize() / 2;
         Location center = border.getCenter();
 
-        Location randomLocation = null;
-        for (int i = 0; i < 10; i++) { // Tentatives limitées pour trouver une position sûre
-            double x = center.getX() + (random.nextDouble() * 2 - 1) * borderSize;
-            double z = center.getZ() + (random.nextDouble() * 2 - 1) * borderSize;
-            int y = world.getHighestBlockYAt((int) x, (int) z);
+        // On lance la boucle asynchrone avec 10 tentatives maximum
+        return findSafeLocationAsync(world, center, borderSize, 10)
+                .thenApply(safeLocation -> {
+                    if (safeLocation != null) {
+                        player.teleport(safeLocation);
+                        return true;
+                    }
+                    return false;
+                });
+    }
 
-            Location potentialLocation = new Location(world, x, y, z);
-            randomLocation = searchSafeSpot(potentialLocation);
-
-            if (randomLocation != null) {
-                break; // Si une position sûre est trouvée, on arrête les tentatives
-            }
+    /**
+     * Finds a safe location inside the world border.
+     *
+     * @param world
+     * @param center
+     * @param borderSize
+     * @param attemptsLeft
+     * @return CompetableFuture<Location>
+     */
+    private CompletableFuture<Location> findSafeLocationAsync(World world, Location center, double borderSize, int attemptsLeft) {
+        if (attemptsLeft <= 0) {
+            return CompletableFuture.completedFuture(null); // Échec après 10 tentatives
         }
 
-        if (randomLocation != null) {
-            player.teleport(randomLocation.add(0, 2, 0));
-            return true;
-        }
+        // 1. Calcul mathématique (Thread-Safe)
+        double x = center.getX() + (random.nextDouble() * 2 - 1) * borderSize;
+        double z = center.getZ() + (random.nextDouble() * 2 - 1) * borderSize;
 
-        return false;
+        // 2. Chargement du chunk en asynchrone (API Paper). C'est ce qui évite les lags !
+        return world.getChunkAtAsync((int) x >> 4, (int) z >> 4).thenCompose(chunk -> {
+
+            // 3. Une fois le chunk chargé, on vérifie les blocs.
+            // Pour être 100% safe avec Bukkit, la lecture des blocs se fait sur le thread principal.
+            CompletableFuture<Location> syncCheckFuture = new CompletableFuture<>();
+
+            Bukkit.getScheduler().runTask(FirstSpawnRTP.getInstance(), () -> {
+                int y = world.getHighestBlockYAt((int) x, (int) z);
+                Location potentialLocation = new Location(world, x, y, z);
+                Location safeLocation = searchSafeSpot(potentialLocation);
+                syncCheckFuture.complete(safeLocation);
+            });
+
+            // 4. On analyse le résultat de la vérification
+            return syncCheckFuture.thenCompose(safeLocation -> {
+                if (safeLocation != null) {
+                    return CompletableFuture.completedFuture(safeLocation); // On a trouvé !
+                } else {
+                    // Pas sûr, on retente sa chance en rappelant la méthode (tentative - 1)
+                    return findSafeLocationAsync(world, center, borderSize, attemptsLeft - 1);
+                }
+            });
+        });
     }
 }
