@@ -14,7 +14,7 @@ public class Reload extends AbstractSubCommand {
     }
     @Override
     public List<String> getAliases() {
-        return List.of("");
+        return List.of("restart");
     }
     @Override
     public String getDescription() {
