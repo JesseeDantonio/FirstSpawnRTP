@@ -1,3 +1,12 @@
 reload_success: "&aConfiguration rechargée !"
 reset_success: "&aBase de données réinitialisé !"
 no_permission: "&cVous n'avez pas la permission !"
+help:
+  1:
+    - "&6&m-----------------------------------------------------"
+    - "&9FSRTP Help &e(Page 1/1)"
+    - "&e/rtp reload - &7Recharge les configurations du plugin."
+    - "&e/rtp reset - &7Réinitialise les données joueur."
+    - "&eYou are currently on &fPage 1/1."
+    - "&eTo view other pages, use &9/rtp help <page>"
+    - "&6&m-----------------------------------------------------"
