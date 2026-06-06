@@ -95,14 +95,15 @@ public class RTPCommand implements CommandExecutor {
     }
 
     private void teleportOther(CommandSender sender, Player player) {
-            FirstSpawnRTP.getInstance().getRandomTeleport().p(player).thenAccept((result) -> {
-                if (result) {
-                    sender.sendMessage("Teleported " + player.getName() + " to a safe location.");
-                    player.sendMessage(FirstSpawnRTP.getLangFile().getString("success_player_rtp"));
-                } else {
-                    sender.sendMessage("Failed to teleport " + player.getName() + ".");
-                }
-            });
+        player.sendMessage(FirstSpawnRTP.getLangFile().getString("search_safe_loc"));
+        FirstSpawnRTP.getInstance().getRandomTeleport().p(player).thenAccept((result) -> {
+            if (result) {
+                sender.sendMessage("Teleported " + player.getName() + " to a safe location.");
+                player.sendMessage(FirstSpawnRTP.getLangFile().getString("success_player_rtp"));
+            } else {
+                sender.sendMessage("Failed to teleport " + player.getName() + ".");
+            }
+        });
     }
 }
 
