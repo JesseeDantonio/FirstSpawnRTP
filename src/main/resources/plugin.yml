@@ -12,7 +12,7 @@ permissions:
     description: Permission to reload config
     default: op
   rtp.other:
-    description: permission to teleport another player
+    description: Permission to teleport another player
     default: op
 
 commands:
