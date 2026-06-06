@@ -57,7 +57,10 @@ public class RTPCommand implements CommandExecutor {
 
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
-                if (!player.hasPermission("rtp.other")) return true;
+                if (!player.hasPermission("rtp.other")) {
+                    p.sendMessage(Component.text("You do not have permission to teleport other players.", NamedTextColor.RED));
+                    return true;
+                };
                 teleportOther(sender, player);
                 return true;
             }
