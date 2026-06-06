@@ -58,7 +58,7 @@ public class RTPCommand implements CommandExecutor {
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
                 if (!player.hasPermission("rtp.other")) {
-                    p.sendMessage(Component.text("You do not have permission to teleport other players.", NamedTextColor.RED));
+                    p.sendMessage(FirstSpawnRTP.getLangFile().getString("no_permission"));
                     return true;
                 };
                 teleportOther(sender, player);
@@ -67,7 +67,7 @@ public class RTPCommand implements CommandExecutor {
 
             SubCommand sub = subCommands.get(args[0].toLowerCase());
             if (sub == null) {
-                p.sendMessage(Component.text("Unknown sub-command. Use /hg help.", NamedTextColor.RED));
+                p.sendMessage(FirstSpawnRTP.getLangFile().getString("unknown_subcommand"));
                 return true;
             }
             sub.executePlayer(sender, Arrays.copyOfRange(args, 1, args.length));
@@ -85,7 +85,7 @@ public class RTPCommand implements CommandExecutor {
 
             SubCommand sub = subCommands.get(args[0].toLowerCase());
             if (sub == null) {
-                Bukkit.getConsoleSender().sendMessage("Unknown sub-command. Use /hg help.");
+                Bukkit.getConsoleSender().sendMessage(FirstSpawnRTP.getLangFile().getString("unknown_subcommand"));
                 return true;
             }
             sub.executeConsole(sender, Arrays.copyOfRange(args, 1, args.length));
@@ -98,10 +98,9 @@ public class RTPCommand implements CommandExecutor {
             FirstSpawnRTP.getInstance().getRandomTeleport().p(player).thenAccept((result) -> {
                 if (result) {
                     sender.sendMessage("Teleported " + player.getName() + " to a safe location.");
-                    player.sendMessage("You have been teleported to a safe location.");
+                    player.sendMessage(FirstSpawnRTP.getLangFile().getString("success_player_rtp"));
                 } else {
                     sender.sendMessage("Failed to teleport " + player.getName() + ".");
-                    player.sendMessage("Failed to teleport you.");
                 }
             });
     }
