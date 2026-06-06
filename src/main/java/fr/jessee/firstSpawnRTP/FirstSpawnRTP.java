@@ -52,7 +52,7 @@ public final class FirstSpawnRTP extends JavaPlugin {
 
         randomTeleport = new RandomTeleport();
         Bukkit.getPluginManager().registerEvents(new Join(), this);
-        PluginCommand command = getCommand("rtp");
+        PluginCommand command = getCommand("fsrtp");
 
         if (command == null) {
             getLogger().severe("NullPointerException: Command 'rtp' not found.");

@@ -20,7 +20,7 @@ commands:
     description: RTP command
     usage: /fsprtp
     defaults: true
-    aliases: [fsrtp]
+    aliases: [rtp]
 
 main: fr.jessee.firstSpawnRTP.FirstSpawnRTP
 api-version: '26.1.2'
