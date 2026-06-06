@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
-    id("xyz.jpenilla.run-paper") version "3.0.2"
+//    id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("com.gradleup.shadow") version "9.4.2"
 }
 
 repositories {
@@ -19,6 +20,14 @@ java {
 }
 
 tasks {
+    shadowJar {
+        archiveClassifier.set("") // remplace le jar normal
+        relocate("org.reflections", "fr.jessee.firstSpawnRTP.libs.reflections")
+    }
+
+    build {
+        dependsOn(shadowJar)
+    }
     processResources {
         val props = mapOf("version" to version)
         filesMatching("plugin.yml") {
