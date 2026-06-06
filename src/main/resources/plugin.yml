@@ -12,6 +12,13 @@ permissions:
     description: Permission to reload config
     default: op
 
+commands:
+  rtp:
+    description: RTP command
+    usage: /fsprtp
+    defaults: true
+    aliases: [fsrtp]
+
 main: fr.jessee.firstSpawnRTP.FirstSpawnRTP
 api-version: '26.1.2'
 load: POSTWORLD
