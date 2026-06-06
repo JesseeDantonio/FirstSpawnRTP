@@ -58,13 +58,13 @@ public class RTPCommand implements CommandExecutor {
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
                 if (!player.hasPermission("rtp.other")) return true;
-                FirstSpawnRTP.getInstance().getRandomTeleport().p(player);
+                teleportOther(sender, player);
                 return true;
             }
 
             SubCommand sub = subCommands.get(args[0].toLowerCase());
             if (sub == null) {
-                p.sendMessage(Component.text( "Unknown sub-command. Use /hg help.", NamedTextColor.RED));
+                p.sendMessage(Component.text("Unknown sub-command. Use /hg help.", NamedTextColor.RED));
                 return true;
             }
             sub.executePlayer(sender, Arrays.copyOfRange(args, 1, args.length));
@@ -76,7 +76,7 @@ public class RTPCommand implements CommandExecutor {
 
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
-                FirstSpawnRTP.getInstance().getRandomTeleport().p(player);
+                teleportOther(sender, player);
                 return true;
             }
 
@@ -87,7 +87,20 @@ public class RTPCommand implements CommandExecutor {
             }
             sub.executeConsole(sender, Arrays.copyOfRange(args, 1, args.length));
         }
+
         return true;
+    }
+
+    private void teleportOther(CommandSender sender, Player player) {
+            FirstSpawnRTP.getInstance().getRandomTeleport().p(player).thenAccept((result) -> {
+                if (result) {
+                    sender.sendMessage("Teleported " + player.getName() + " to a safe location.");
+                    player.sendMessage("You have been teleported to a safe location.");
+                } else {
+                    sender.sendMessage("Failed to teleport " + player.getName() + ".");
+                    player.sendMessage("Failed to teleport you.");
+                }
+            });
     }
 }
 
