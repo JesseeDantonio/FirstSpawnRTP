@@ -56,6 +56,7 @@ public class RTPCommand implements CommandExecutor {
 
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
+                if (!player.hasPermission("rtp.other")) return true;
                 FirstSpawnRTP.getInstance().getRandomTeleport().p(player);
                 return true;
             }
