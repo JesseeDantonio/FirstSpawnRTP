@@ -9,6 +9,7 @@ help:
     - "&9FSRTP Help &e(Page 1/1)"
     - "&e/rtp reload - &7Recharge les configurations du plugin."
     - "&e/rtp reset - &7Réinitialise les données joueur."
+    - "&e/rtp <player> - &7Téléporte un autre joueur."
     - "&eYou are currently on &fPage 1/1."
     - "&eTo view other pages, use &9/rtp help <page>"
     - "&6&m-----------------------------------------------------"
