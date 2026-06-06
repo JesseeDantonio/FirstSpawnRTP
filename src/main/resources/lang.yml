@@ -1,6 +1,9 @@
 reload_success: "&aConfiguration rechargée !"
 reset_success: "&aBase de données réinitialisé !"
 no_permission: "&cVous n'avez pas la permission !"
+unknown_subcommand: "Commande inconnue !"
+success_player_rtp: "Tu as été téléporté dans un endroit sûr."
+failed_rtp: ""
 help:
   1:
     - "&6&m-----------------------------------------------------"
