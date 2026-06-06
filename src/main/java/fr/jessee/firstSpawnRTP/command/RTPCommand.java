@@ -53,6 +53,13 @@ public class RTPCommand implements CommandExecutor {
                 subCommands.get("help").executePlayer(sender, args);
                 return true;
             }
+
+            Player player = Bukkit.getPlayer(args[0]);
+            if (player != null) {
+                FirstSpawnRTP.getInstance().getRandomTeleport().p(player);
+                return true;
+            }
+
             SubCommand sub = subCommands.get(args[0].toLowerCase());
             if (sub == null) {
                 p.sendMessage(Component.text( "Unknown sub-command. Use /hg help.", NamedTextColor.RED));
