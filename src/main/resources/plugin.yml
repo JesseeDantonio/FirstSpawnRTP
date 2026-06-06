@@ -16,9 +16,9 @@ permissions:
     default: op
 
 commands:
-  rtp:
+  fsrtp:
     description: RTP command
-    usage: /fsprtp
+    usage: /fsrtp
     defaults: true
     aliases: [rtp]
 
