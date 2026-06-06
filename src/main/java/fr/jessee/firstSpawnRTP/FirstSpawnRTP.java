@@ -55,7 +55,7 @@ public final class FirstSpawnRTP extends JavaPlugin {
         PluginCommand command = getCommand("fsrtp");
 
         if (command == null) {
-            getLogger().severe("NullPointerException: Command 'rtp' not found.");
+            getLogger().severe("NullPointerException: Command 'fsrtp' not found.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
