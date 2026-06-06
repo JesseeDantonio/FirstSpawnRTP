@@ -57,7 +57,7 @@ public class RTPCommand implements CommandExecutor {
 
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
-                if (!player.hasPermission("rtp.other")) {
+                if (!sender.hasPermission("rtp.other")) {
                     p.sendMessage(FirstSpawnRTP.getLangFile().getString("no_permission"));
                     return true;
                 };
