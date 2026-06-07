@@ -3,8 +3,8 @@ package fr.jessee.firstSpawnRTP.feature;
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -44,41 +44,42 @@ public class RandomTeleport {
      * @return Location
      */
     private Location searchSafeSpot(Location location) {
-        Location safeSpot = null;
         final World world = location.getWorld();
         final int maxHeight = (world.getEnvironment() == World.Environment.NETHER) ? 125 : world.getMaxHeight() - 2;
+        final int minHeight = world.getMinHeight() + 1; // En 1.21, le monde descend à -64, on ne s'arrête pas à 1.
 
         int yGrow = location.getBlockY();
-        int yDecr = location.getBlockY();
+        int yDecr = location.getBlockY() - 1; // On commence un bloc en dessous pour éviter de vérifier deux fois le même bloc
 
-        while (yDecr >= 1 || yGrow <= maxHeight) {
-            // Above?
-            if (yGrow < maxHeight) {
-                Location spot = new Location(world, location.getBlockX(), yGrow, location.getBlockZ());
+        // On s'assure que les variables de départ sont dans les limites pour éviter tout blocage
+        if (yGrow > maxHeight) yGrow = maxHeight;
+        if (yDecr < minHeight) yDecr = minHeight;
+
+        while (yDecr >= minHeight || yGrow <= maxHeight) {
+            // Chercher vers le haut
+            if (yGrow <= maxHeight) {
+                Location spot = new Location(world, location.getX(), yGrow, location.getZ());
                 if (isSafeSpot(spot)) {
-                    safeSpot = spot;
-                    break;
+                    spot.setPitch(location.getPitch());
+                    spot.setYaw(location.getYaw());
+                    return spot; // On retourne directement, plus besoin de break
                 }
                 yGrow++;
             }
 
-            // Below?
-            if (yDecr > 1 && yDecr != yGrow) {
+            // Chercher vers le bas
+            if (yDecr >= minHeight) {
                 Location spot = new Location(world, location.getX(), yDecr, location.getZ());
                 if (isSafeSpot(spot)) {
-                    safeSpot = spot;
-                    break;
+                    spot.setPitch(location.getPitch());
+                    spot.setYaw(location.getYaw());
+                    return spot;
                 }
                 yDecr--;
             }
         }
 
-        if (safeSpot != null) {
-            safeSpot.setPitch(location.getPitch());
-            safeSpot.setYaw(location.getYaw());
-        }
-
-        return safeSpot;
+        return null;
     }
 
     /**
