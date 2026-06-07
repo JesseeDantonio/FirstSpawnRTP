@@ -1,9 +1,9 @@
 package fr.jessee.firstSpawnRTP.feature;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
-import fr.jessee.firstSpawnRTP.event.PlayerPostRtpEvent;
-import fr.jessee.firstSpawnRTP.event.PlayerPreRtpEvent;
-import fr.jessee.firstSpawnRTP.util.RtpCause;
+import fr.jessee.firstSpawnRTP.api.event.PlayerPostRtpEvent;
+import fr.jessee.firstSpawnRTP.api.event.PlayerPreRtpEvent;
+import fr.jessee.firstSpawnRTP.api.iface.RtpCause;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
