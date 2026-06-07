@@ -1,4 +1,4 @@
-package fr.jessee.firstSpawnRTP.util;
+package fr.jessee.firstSpawnRTP.api.iface;
 
 public enum RtpCause {
     COMMAND,
