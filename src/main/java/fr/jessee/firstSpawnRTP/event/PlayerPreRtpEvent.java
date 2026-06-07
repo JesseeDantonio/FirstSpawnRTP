@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerPreRtpEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean cancelled;
-    private final Location targetLocation;
+    private Location targetLocation;
     private final RtpCause cause;
 
     public PlayerPreRtpEvent(Player player, Location targetLocation, RtpCause cause) {
@@ -38,6 +38,10 @@ public class PlayerPreRtpEvent extends PlayerEvent implements Cancellable {
 
     public Location getTargetLocation() {
         return targetLocation;
+    }
+
+    public void setTargetLocation(Location targetLocation) {
+        this.targetLocation = targetLocation;
     }
 
     public RtpCause getCause() {
