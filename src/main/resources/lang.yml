@@ -4,6 +4,7 @@ no_permission: "&cVous n'avez pas la permission !"
 unknown_subcommand: "Commande inconnue !"
 success_player_rtp: "&aTu as été téléporté dans un endroit sûr."
 search_safe_loc: "&bRecherche d'un point sûr en cours..."
+help_invalid_page: "&cPage invalide !"
 help:
   1:
     - "&6&m-----------------------------------------------------"
