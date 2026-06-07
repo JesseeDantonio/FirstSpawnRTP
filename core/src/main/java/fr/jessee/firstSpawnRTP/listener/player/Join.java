@@ -1,7 +1,7 @@
 package fr.jessee.firstSpawnRTP.listener.player;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
-import fr.jessee.firstSpawnRTP.util.RtpCause;
+import fr.jessee.firstSpawnRTP.api.iface.RtpCause;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
