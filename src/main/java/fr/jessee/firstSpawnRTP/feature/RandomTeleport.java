@@ -124,7 +124,7 @@ public class RandomTeleport {
                             return;
                         }
 
-                        player.teleport(safeLocation);
+                        player.teleport(preEvent.getTargetLocation());
 
                         PlayerPostRtpEvent postEvent = new PlayerPostRtpEvent(
                                 player,
