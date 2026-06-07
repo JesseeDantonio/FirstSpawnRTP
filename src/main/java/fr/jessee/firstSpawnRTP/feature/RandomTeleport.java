@@ -1,6 +1,9 @@
 package fr.jessee.firstSpawnRTP.feature;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
+import fr.jessee.firstSpawnRTP.event.PlayerPostRtpEvent;
+import fr.jessee.firstSpawnRTP.event.PlayerPreRtpEvent;
+import fr.jessee.firstSpawnRTP.util.RtpCause;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -88,7 +91,7 @@ public class RandomTeleport {
      * @param player The player to be teleported.
      * @return CompetableFuture<Boolean>
      */
-    public CompletableFuture<Boolean> p(Player player) {
+    public CompletableFuture<Boolean> p(Player player, RtpCause cause) {
         World world = player.getWorld();
         WorldBorder border = world.getWorldBorder();
 
@@ -97,12 +100,45 @@ public class RandomTeleport {
 
         // On lance la boucle asynchrone avec 10 tentatives maximum
         return findSafeLocationAsync(world, center, borderSize, 10)
-                .thenApply(safeLocation -> {
-                    if (safeLocation != null) {
-                        player.teleport(safeLocation);
-                        return true;
+                .thenCompose(safeLocation -> {
+                    CompletableFuture<Boolean> syncFuture = new CompletableFuture<>();
+
+                    if (safeLocation == null) {
+                        syncFuture.complete(false); // Échec de la recherche
+                        return syncFuture;
                     }
-                    return false;
+
+                    Bukkit.getScheduler().runTask(FirstSpawnRTP.getInstance(), () -> {
+                        Location playerLoc = player.getLocation();
+
+                        PlayerPreRtpEvent preEvent = new PlayerPreRtpEvent(
+                                player,
+                                safeLocation,
+                                cause
+                        );
+
+                        Bukkit.getPluginManager().callEvent(preEvent);
+
+                        if (preEvent.isCancelled()) {
+                            syncFuture.complete(false);
+                            return;
+                        }
+
+                        player.teleport(safeLocation);
+
+                        PlayerPostRtpEvent postEvent = new PlayerPostRtpEvent(
+                                player,
+                                cause,
+                                playerLoc,
+                                safeLocation
+                        );
+
+                        Bukkit.getPluginManager().callEvent(postEvent);
+
+                        syncFuture.complete(true);
+                    });
+
+                    return syncFuture;
                 });
     }
 
