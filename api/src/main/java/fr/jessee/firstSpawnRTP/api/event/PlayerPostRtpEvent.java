@@ -1,6 +1,6 @@
-package fr.jessee.firstSpawnRTP.event;
+package fr.jessee.firstSpawnRTP.api.event;
 
-import fr.jessee.firstSpawnRTP.util.RtpCause;
+import fr.jessee.firstSpawnRTP.api.iface.RtpCause;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
