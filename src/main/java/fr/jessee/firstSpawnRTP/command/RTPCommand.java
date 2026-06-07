@@ -1,6 +1,7 @@
 package fr.jessee.firstSpawnRTP.command;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
+import fr.jessee.firstSpawnRTP.util.RtpCause;
 import fr.jessee.firstSpawnRTP.util.iface.SubCommand;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -96,7 +97,7 @@ public class RTPCommand implements CommandExecutor {
 
     private void teleportOther(CommandSender sender, Player player) {
         player.sendMessage(FirstSpawnRTP.getLangFile().getString("search_safe_loc"));
-        FirstSpawnRTP.getInstance().getRandomTeleport().p(player).thenAccept((result) -> {
+        FirstSpawnRTP.getInstance().getRandomTeleport().p(player, RtpCause.COMMAND).thenAccept((result) -> {
             if (result) {
                 sender.sendMessage("Teleported " + player.getName() + " to a safe location.");
                 player.sendMessage(FirstSpawnRTP.getLangFile().getString("success_player_rtp"));
