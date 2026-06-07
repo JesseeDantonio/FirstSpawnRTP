@@ -1,6 +1,7 @@
 package fr.jessee.firstSpawnRTP.listener.player;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
+import fr.jessee.firstSpawnRTP.util.RtpCause;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +21,7 @@ public class Join implements Listener {
         FirstSpawnRTP.getInstance().getPlayerRepository().getIsPlayerExistAsync(UUID_P).thenAccept(playerExist -> {
             if (!playerExist) {
                 FirstSpawnRTP.getInstance().getPlayerRepository().getAddAsync(UUID_P);
-                FirstSpawnRTP.getInstance().getRandomTeleport().p(PLAYER);
+                FirstSpawnRTP.getInstance().getRandomTeleport().p(PLAYER, RtpCause.JOIN);
             }
         });
     }
