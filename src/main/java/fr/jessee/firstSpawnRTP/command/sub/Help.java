@@ -35,42 +35,51 @@ public class Help extends AbstractSubCommand {
     public void executePlayer(CommandSender sender, String[] args) {
         if (!(sender instanceof Player p)) return;
 
-        String msg = prepareMsg(args);
-        p.sendMessage(msg);
+        sendHelp(sender, args);
     }
 
     @Override
     public void executeConsole(CommandSender sender, String[] args) {
         if (sender instanceof Player) return;
 
-        String msg = prepareMsg(args);
-        sender.sendMessage(msg);
+        sendHelp(sender, args);
     }
 
-    private String prepareMsg(String[] args) {
+    private List<String> prepareMsg(String[] args) {
         ConfigurationSection helpSection = getLangFile().getConfiguration().getConfigurationSection("help");
-        if (helpSection == null) return "";
+        if (helpSection == null) return new ArrayList<>();
         List<List<String>> help = new ArrayList<>();
 
         for (String key : helpSection.getKeys(false)) {
             help.add(getLangFile().getStringList("help." + key));
         }
 
+        if (help.isEmpty()) return new ArrayList<>();
+
         if (args.length == 0) {
-            for (String msg : help.getFirst()) {
-                return msg;
-            }
+            return help.getFirst();
         }
 
         if (isInteger(args[0])) {
             int page = Integer.parseInt(args[0]);
             if (page > 0 && page <= help.size()) {
-                for (String msg : help.get(page - 1)) {
-                    return msg;
-                }
+                return help.get(page - 1);
             }
         }
-        return "";
+        return null;
+    }
+
+    private void sendHelp(CommandSender sender, String[] args) {
+        List<String> messages = prepareMsg(args);
+
+        if (messages == null) {
+            sender.sendMessage(getLangFile().getString("help_invalid_page"));
+            return;
+        };
+
+        for (String msg : messages) {
+            sender.sendMessage(msg);
+        }
     }
 
     private static boolean isInteger(String s) {
