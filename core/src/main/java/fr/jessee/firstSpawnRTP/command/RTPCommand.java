@@ -3,8 +3,6 @@ package fr.jessee.firstSpawnRTP.command;
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
 import fr.jessee.firstSpawnRTP.util.RtpCause;
 import fr.jessee.firstSpawnRTP.util.iface.SubCommand;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

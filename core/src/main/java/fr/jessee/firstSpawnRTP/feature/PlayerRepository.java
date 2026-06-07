@@ -10,7 +10,6 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static org.bukkit.Bukkit.getConsoleSender;
-import static org.bukkit.Bukkit.getLogger;
 
 public class PlayerRepository {
     private final ConnectionProvider connectionProvider;
