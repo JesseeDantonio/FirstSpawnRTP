@@ -1,7 +1,7 @@
 package fr.jessee.firstSpawnRTP.command;
 
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
-import fr.jessee.firstSpawnRTP.util.RtpCause;
+import fr.jessee.firstSpawnRTP.api.iface.RtpCause;
 import fr.jessee.firstSpawnRTP.util.iface.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
