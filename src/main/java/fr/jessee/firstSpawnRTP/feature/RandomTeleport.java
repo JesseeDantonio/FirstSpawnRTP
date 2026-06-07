@@ -13,35 +13,28 @@ public class RandomTeleport {
 
     private final Random random = new Random();
 
-    private boolean isSafeSpot(final Location LOCATION) {
-        final World WORLD = LOCATION.getWorld();
-        final int BLOCK_X = LOCATION.getBlockX();
-        final int BLOCK_Y = LOCATION.getBlockY();
-        final int BLOCK_Z = LOCATION.getBlockZ();
+    private boolean isSafeSpot(final Location LOC) {
+        final Block blockCenter = LOC.getBlock();
+        final Block blockAbove = blockCenter.getRelative(BlockFace.UP);
+        final Block blockBelow = blockCenter.getRelative(BlockFace.DOWN);
 
-        final Block BLOCK_CENTER = WORLD.getBlockAt(BLOCK_X, BLOCK_Y, BLOCK_Z);
-        final Block BLOCK_ABOVE = WORLD.getBlockAt(BLOCK_X, BLOCK_Y + 1, BLOCK_Z);
-        final Block BLOCK_BELOW = WORLD.getBlockAt(BLOCK_X, BLOCK_Y - 1, BLOCK_Z);
+        // Le joueur doit avoir de l'espace pour respirer (pas de blocs solides, pas de lave, pas d'eau au niveau de la tête)
+        boolean isSafeCenter = !blockCenter.getType().isSolid() && blockCenter.getType() != Material.LAVA && blockCenter.getType() != Material.WATER;
+        boolean isSafeAbove = !blockAbove.getType().isSolid() && blockAbove.getType() != Material.LAVA && blockAbove.getType() != Material.WATER;
 
-        boolean isTransparentCenter = BLOCK_CENTER.getType().isOccluding();
-        boolean isLiquidCenter = BLOCK_CENTER.isLiquid() && !BLOCK_CENTER.getType().equals(Material.LAVA);
+        // Le bloc en dessous doit être solide (terre, pierre...) OU de l'eau (si tu autorises l'atterrissage dans l'eau)
+        boolean isSolidBelow = blockBelow.getType().isSolid();
+        boolean isWaterBelow = blockBelow.getType() == Material.WATER;
 
-        boolean isTransparentAbove = BLOCK_ABOVE.getType().isOccluding();
-        boolean isLiquidAbove = BLOCK_ABOVE.isLiquid() && !BLOCK_ABOVE.getType().equals(Material.LAVA);
-//        boolean isSolidAbove = BLOCK_ABOVE.isAir();
+        boolean isSafeBelow = isSolidBelow || isWaterBelow;
 
-        boolean isSolidBelow = BLOCK_BELOW.getType().isSolid();
-        boolean isWaterBelow = BLOCK_BELOW.getType().equals(Material.WATER);
-
-        if ((isTransparentCenter || (isLiquidCenter && !BLOCK_CENTER.getType().equals(Material.LAVA)))
-                && (isTransparentAbove || (isLiquidAbove && !BLOCK_ABOVE.getType().equals(Material.LAVA)))) {
-            // Deux blocs respirables : OK
-
-            // Le bloc en dessous est solide ou un liquide autre que de la lave
-            return isSolidBelow || isWaterBelow;
-        } else {
-            return false;
+        // On exclut les blocs solides mais dangereux
+        Material belowType = blockBelow.getType();
+        if (belowType == Material.MAGMA_BLOCK || belowType == Material.CACTUS || belowType == Material.CAMPFIRE || belowType == Material.FIRE) {
+            isSafeBelow = false;
         }
+
+        return isSafeBelow && isSafeCenter && isSafeAbove;
     }
 
     /**
