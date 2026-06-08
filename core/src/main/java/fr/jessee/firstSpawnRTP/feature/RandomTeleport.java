@@ -153,7 +153,7 @@ public class RandomTeleport implements FirstSpawnRtpApi {
      * @param attemptsLeft
      * @return CompetableFuture<Location>
      */
-    private CompletableFuture<Location> findSafeLocationAsync(World world, Location center, double borderSize, int attemptsLeft) {
+    public CompletableFuture<Location> findSafeLocationAsync(World world, Location center, double borderSize, int attemptsLeft) {
         if (attemptsLeft <= 0) {
             return CompletableFuture.completedFuture(null); // Échec après 10 tentatives
         }
