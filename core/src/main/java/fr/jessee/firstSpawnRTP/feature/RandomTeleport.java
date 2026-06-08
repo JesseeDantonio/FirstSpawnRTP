@@ -3,6 +3,7 @@ package fr.jessee.firstSpawnRTP.feature;
 import fr.jessee.firstSpawnRTP.FirstSpawnRTP;
 import fr.jessee.firstSpawnRTP.api.event.PlayerPostRtpEvent;
 import fr.jessee.firstSpawnRTP.api.event.PlayerPreRtpEvent;
+import fr.jessee.firstSpawnRTP.api.iface.FirstSpawnRtpApi;
 import fr.jessee.firstSpawnRTP.api.iface.RtpCause;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -12,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
-public class RandomTeleport {
+public class RandomTeleport implements FirstSpawnRtpApi {
 
     private final Random random = new Random();
 
@@ -91,7 +92,8 @@ public class RandomTeleport {
      * @param player The player to be teleported.
      * @return CompetableFuture<Boolean>
      */
-    public CompletableFuture<Boolean> p(Player player, RtpCause cause) {
+    @Override
+    public CompletableFuture<Boolean> teleportPlayer(Player player, RtpCause cause) {
         World world = player.getWorld();
         WorldBorder border = world.getWorldBorder();
 
