@@ -1,5 +1,8 @@
 package fr.jessee.firstSpawnRTP;
 
+import fr.jessee.firstSpawnRTP.api.FirstSpawnRtpProvider;
+import fr.jessee.firstSpawnRTP.api.iface.FirstSpawnRtpApi;
+import fr.jessee.firstSpawnRTP.api.iface.RtpCause;
 import fr.jessee.firstSpawnRTP.feature.ConfigFile;
 import fr.jessee.firstSpawnRTP.feature.RandomTeleport;
 import fr.jessee.firstSpawnRTP.feature.SQLiteDataSource;
@@ -9,6 +12,7 @@ import fr.jessee.firstSpawnRTP.util.iface.ConnectionProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -61,6 +65,8 @@ public final class FirstSpawnRTP extends JavaPlugin {
         }
 
         command.setExecutor(new fr.jessee.firstSpawnRTP.command.RTPCommand());
+
+        FirstSpawnRtpProvider.register(this.randomTeleport);
     }
 
     @Override
