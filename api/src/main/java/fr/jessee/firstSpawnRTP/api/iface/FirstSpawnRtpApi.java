@@ -18,10 +18,10 @@ public interface FirstSpawnRtpApi {
 
     /**
      * Trouver un endroit sûr dans le monde.
-     * @param world
-     * @param center
-     * @param borderSize
-     * @param attemptsLeft
+     * @param world Le monde concerné
+     * @param center La position du centre du monde
+     * @param borderSize La taille du bordure du monde
+     * @param attemptsLeft Tentative maximum
      * @return CompletableFuture<Location>
      */
     CompletableFuture<Location> findSafeLocationAsync(World world, Location center, double borderSize, int attemptsLeft);
