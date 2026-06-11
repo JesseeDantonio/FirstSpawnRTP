@@ -14,7 +14,6 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 public class RandomTeleport implements FirstSpawnRtpApi {
-
     private final Random random = new Random();
 
     private boolean isSafeSpot(final Location LOC) {
@@ -111,6 +110,12 @@ public class RandomTeleport implements FirstSpawnRtpApi {
                     }
 
                     Bukkit.getScheduler().runTask(FirstSpawnRTP.getInstance(), () -> {
+
+                        if (player.isDead() || !player.isOnline()) {
+                            syncFuture.complete(false);
+                            return;
+                        }
+
                         Location playerLoc = player.getLocation();
 
                         PlayerPreRtpEvent preEvent = new PlayerPreRtpEvent(
